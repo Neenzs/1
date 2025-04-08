@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Besparing Koffiemachine</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      max-width: 600px;
+      margin: auto;
+    }
+    h2 { color: #333; }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <h2>☑️ Interactieve Besparingstool Koffiemachine</h2>
+
+  <label>Aantal koffiemachines:
+    <input type="number" id="machines" value="1">
+  </label>
+  <label>Prijs per kWh (€):
+    <input type="number" id="kwhPrice" value="0.30" step="0.01">
+  </label>
+  <label>Aantal werkdagen per jaar:
+    <input type="number" id="days" value="230">
+  </label>
+  <label>Besparingstijd per dag (uren):
+    <input type="number" id="savedHours" value="1" step="0.1">
+  </label>
+  <label>Vermogen koffiemachine (watt):
+    <input type="number" id="power" value="1000">
+  </label>
+  <label>CO₂-uitstoot per kWh (kg):
+    <input type="number" id="co2PerKwh" value="0.4" step="0.01">
+  </label>
+
+  <button onclick="bereken()">Bereken besparing</button>
+
+  <div id="result"></div>
+
+  <script>
+    function bereken() {
+      const machines = parseFloat(document.getElementById('machines').value);
+      const kwhPrice = parseFloat(document.getElementById('kwhPrice').value);
+      const days = parseFloat(document.getElementById('days').value);
+      const savedHours = parseFloat(document.getElementById('savedHours').value);
+      const power = parseFloat(document.getElementById('power').value); // in watt
+      const co2PerKwh = parseFloat(document.getElementById('co2PerKwh').value);
+
+      const kwhPerHour = power / 1000; // omzetten naar kWh
+      const besparingKwh = kwhPerHour * savedHours * days * machines;
+      const besparingEuro = besparingKwh * kwhPrice;
+      const besparingCO2 = besparingKwh * co2PerKwh;
+
+      document.getElementById('result').innerHTML = `
+        <strong>🔋 Totale besparing:</strong> ${besparingKwh.toFixed(2)} kWh<br>
+        <strong>💶 Kostenbesparing:</strong> €${besparingEuro.toFixed(2)} per jaar<br>
+        <strong>❄️ CO₂-besparing:</strong> ${besparingCO2.toFixed(2)} kg per jaar
+      `;
+    }
+  </script>
+</body>
+</html>
