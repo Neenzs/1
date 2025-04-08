@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <title>Besparingstool Koffiemachine - Online vs. Fysiek</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    h2 { color: #333; }
+    label {
+      display: block;
+      margin-top: 1rem;
+    }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #result {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+    }
+  </style>
+</head>
+<body>
+  <h2>Besparingstool Koffiemachine - Online vs. Fysiek Bezoek</h2>
+
+  <label>Uurtarief medewerker (€):
+    <input type="number" id="hourlyRate" value="20" step="1">
+  </label>
+  <label>Afstand naar locatie (km):
+    <input type="number" id="distance" value="50" step="1">
+  </label>
+  <label>Brandstofprijs per liter (€):
+    <input type="number" id="fuelPrice" value="1.80" step="0.01">
+  </label>
+  <label>Brandstofverbruik auto (l/100 km):
+    <input type="number" id="fuelConsumption" value="6" step="0.1">
+  </label>
+  <label>CO₂-uitstoot per km (kg):
+    <input type="number" id="co2PerKm" value="0.12" step="0.01">
+  </label>
+  <label>Gemiddelde snelheid (km/h):
+    <input type="number" id="speed" value="60" step="1">
+  </label>
+  <label>Tijd op locatie (uren):
+    <input type="number" id="timeAtLocation" value="1" step="0.1">
+  </label>
+  <label>Aantal bezoeken per jaar:
+    <input type="number" id="annualVisits" value="100" step="1">
+  </label>
+
+  <button onclick="calculateSavings()">Bereken Besparing</button>
+
+  <div id="result"></div>
+
+  <script>
+    function calculateSavings() {
+      const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
+      const distance = parseFloat(document.getElementById('distance').value);
+      const fuelPrice = parseFloat(document.getElementById('fuelPrice').value);
+      const fuelConsumption = parseFloat(document.getElementById('fuelConsumption').value);
+      const co2PerKm = parseFloat(document.getElementById('co2PerKm').value);
+      const speed = parseFloat(document.getElementById('speed').value);
+      const timeAtLocation = parseFloat(document.getElementById('timeAtLocation').value);
+      const annualVisits = parseFloat(document.getElementById('annualVisits').value);
+
+      const softwareCostPerYear = 800 / 5; // Kosten per jaar (800 euro over 5 jaar)
+      
+      // Berekeningen
+      const travelTime = distance / speed; // reistijd in uren
+      const personnelCost = hourlyRate * (travelTime + timeAtLocation); // personeelskosten per bezoek
+      const fuelCost = (distance / 100) * fuelConsumption * fuelPrice; // benzinekosten per bezoek
+      const co2Emissions = distance * co2PerKm; // CO2-uitstoot per bezoek (in kg)
+      const totalTime = travelTime + timeAtLocation; // totale tijd per bezoek (uren)
+      
+      // Jaarlijkse besparingen
+      const annualPersonnelCost = personnelCost * annualVisits;
+      const annualFuelCost = fuelCost * annualVisits;
+      const annualCo2Emission = co2Emissions * annualVisits;
+      const totalAnnualSavings = (annualPersonnelCost + annualFuelCost + annualCo2Emission) - softwareCostPerYear;
+
+      // Resultaten weergeven
+      document.getElementById('result').innerHTML = `
+        <strong>Besparingen bij online beheer (ten opzichte van fysiek bezoek):</strong><br>
+        <strong>Personeelskosten per fysiek bezoek:</strong> €${personnelCost.toFixed(2)}<br>
+        <strong>Benzinekosten per fysiek bezoek:</strong> €${fuelCost.toFixed(2)}<br>
+        <strong>CO₂-uitstoot per fysiek bezoek:</strong> ${co2Emissions.toFixed(2)} kg<br>
+        <strong>Totale tijd per fysiek bezoek:</strong> ${totalTime.toFixed(2)} uren<br><br>
+
+        <strong>Jaarlijkse Besparingen:</strong><br>
+        <strong>Jaarlijkse personeelskosten:</strong> €${annualPersonnelCost.toFixed(2)}<br>
+        <strong>Jaarlijkse benzinekosten:</strong> €${annualFuelCost.toFixed(2)}<br>
+        <strong>Jaarlijkse CO₂-besparing (kg):</strong> ${annualCo2Emission.toFixed(2)} kg<br>
+        <strong>Jaarlijkse besparing door online beheer (minus softwarekosten):</strong> €${totalAnnualSavings.toFixed(2)}<br>
+      `;
+    }
+  </script>
+</body>
+</html>
