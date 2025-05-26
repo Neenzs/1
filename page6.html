@@ -3,181 +3,139 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Calculate the Savings You Do When You Do an Online Visit vs a Physical Visit</title>
+  <title>Calculate Online vs Physical Visit Savings</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Saira+Extra+Condensed&display=swap" rel="stylesheet" />
   <style>
-    /* Reset + base */
-    * {
-      box-sizing: border-box;
-    }
     body {
+      background-color: #f5f7fb;
       margin: 0;
-      background: #f5f7fb;
+      padding: 40px 20px;
       font-family: 'Montserrat', sans-serif;
       color: #1e355e;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      font-size: 16px;
-      line-height: 1.5;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 40px 20px;
-      min-height: 100vh;
     }
 
-    .page-wrapper {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 20px 40px rgba(30, 53, 94, 0.08);
-      max-width: 760px;
-      width: 100%;
-      padding: 40px 48px 48px;
+    h1, h2, label {
+      font-family: 'Saira Extra Condensed', sans-serif;
+      color: #1e355e;
     }
 
     h1 {
-      font-family: 'Saira Extra Condensed', sans-serif;
-      font-weight: 400;
-      font-size: 2.8rem;
-      margin: 0 0 40px;
-      line-height: 1.1;
+      font-size: 2.5rem;
       text-align: center;
-      color: #1e355e;
-      letter-spacing: -0.02em;
-    }
-
-    form {
-      width: 100%;
+      margin-bottom: 40px;
     }
 
     label {
-      display: flex;
-      flex-direction: column;
-      font-weight: 600;
-      margin-bottom: 24px;
-      font-size: 1rem;
-      color: #1e355e;
+      display: block;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
     }
 
     input[type="number"] {
-      margin-top: 8px;
-      padding: 12px 16px;
+      width: 100%;
+      padding: 10px 14px;
       font-size: 1rem;
       font-family: 'Montserrat', sans-serif;
       border: 1.8px solid #c4cdd5;
       border-radius: 8px;
-      background: #fff;
-      transition: border-color 0.2s ease;
-      outline-offset: 2px;
+      margin-top: 6px;
+      background: #ffffff;
       color: #1e355e;
-    }
-
-    input[type="number"]:focus {
-      border-color: #1e355e;
-      outline: none;
     }
 
     button {
       width: 100%;
-      padding: 14px 0;
-      margin-top: 8px;
+      padding: 14px;
+      margin-top: 24px;
+      font-size: 1.1rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 600;
       background-color: #1e355e;
       color: white;
       border: none;
       border-radius: 8px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.1rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      letter-spacing: 0.02em;
-      user-select: none;
     }
 
-    button:hover,
-    button:focus {
-      background-color: #16304a;
-      outline: none;
+    button:hover {
+      background-color: #142849;
+    }
+
+    form {
+      max-width: 700px;
+      margin: auto;
     }
 
     #result {
-      margin-top: 36px;
-      padding: 24px 32px;
-      background-color: #e9f1f7;
+      margin-top: 40px;
+      padding: 24px;
+      background: white;
       border-radius: 12px;
-      box-shadow: inset 0 2px 6px rgba(30, 53, 94, 0.1);
-      font-size: 1rem;
-      color: #1e355e;
-      line-height: 1.4;
-      white-space: pre-line;
-      min-height: 160px;
-      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(30, 53, 94, 0.1);
+      font-family: 'Montserrat', sans-serif;
     }
 
     #result strong {
       font-weight: 700;
     }
 
-    @media (max-width: 480px) {
-      .page-wrapper {
-        padding: 32px 24px 32px;
-      }
+    @media (max-width: 600px) {
       h1 {
         font-size: 2rem;
-        margin-bottom: 28px;
       }
+
       label {
-        margin-bottom: 20px;
+        font-size: 1rem;
       }
-      input[type="number"] {
-        padding: 10px 14px;
-        font-size: 0.95rem;
-      }
+
       button {
         font-size: 1rem;
-        padding: 12px 0;
-      }
-      #result {
-        font-size: 0.95rem;
-        padding: 20px 24px;
       }
     }
   </style>
 </head>
 <body>
-  <div class="page-wrapper">
-    <h1>CALCULATE THE SAVINGS YOU DO WHEN YOU DO AN ONLINE VISIT VS A PHYSICAL VISIT</h1>
-    <form id="savingsForm" onsubmit="event.preventDefault(); calculateSavings();">
-      <label for="hourlyRate">Employee hourly rate (€):
-        <input type="number" id="hourlyRate" value="20" step="1" min="0" required />
-      </label>
-      <label for="distance">Distance to location (km):
-        <input type="number" id="distance" value="50" step="1" min="0" required />
-      </label>
-      <label for="fuelPrice">Fuel price per liter (€):
-        <input type="number" id="fuelPrice" value="1.80" step="0.01" min="0" required />
-      </label>
-      <label for="fuelConsumption">Car fuel consumption (l/100 km):
-        <input type="number" id="fuelConsumption" value="6" step="0.1" min="0" required />
-      </label>
-      <label for="co2PerKm">CO₂ emissions per km (kg):
-        <input type="number" id="co2PerKm" value="0.12" step="0.01" min="0" required />
-      </label>
-      <label for="speed">Average speed (km/h):
-        <input type="number" id="speed" value="60" step="1" min="1" required />
-      </label>
-      <label for="timeAtLocation">Time at location (hours):
-        <input type="number" id="timeAtLocation" value="1" step="0.1" min="0" required />
-      </label>
-      <label for="annualVisits">Number of visits per year:
-        <input type="number" id="annualVisits" value="100" step="1" min="0" required />
-      </label>
+  <h1>CALCULATE THE SAVINGS YOU DO WHEN YOU DO AN ONLINE VISIT VS A PHYSICAL VISIT</h1>
 
-      <button type="submit" aria-label="Calculate savings">Calculate Savings</button>
-    </form>
+  <form onsubmit="event.preventDefault(); calculateSavings();">
+    <label>
+      Employee hourly rate (€):
+      <input type="number" id="hourlyRate" value="20" step="1" />
+    </label>
+    <label>
+      Distance to location (km):
+      <input type="number" id="distance" value="50" step="1" />
+    </label>
+    <label>
+      Fuel price per liter (€):
+      <input type="number" id="fuelPrice" value="1.80" step="0.01" />
+    </label>
+    <label>
+      Car fuel consumption (l/100 km):
+      <input type="number" id="fuelConsumption" value="6" step="0.1" />
+    </label>
+    <label>
+      CO₂ emissions per km (kg):
+      <input type="number" id="co2PerKm" value="0.12" step="0.01" />
+    </label>
+    <label>
+      Average speed (km/h):
+      <input type="number" id="speed" value="60" step="1" />
+    </label>
+    <label>
+      Time at location (hours):
+      <input type="number" id="timeAtLocation" value="1" step="0.1" />
+    </label>
+    <label>
+      Number of visits per year:
+      <input type="number" id="annualVisits" value="100" step="1" />
+    </label>
 
-    <div id="result" aria-live="polite" role="region"></div>
-  </div>
+    <button type="submit">Calculate Savings</button>
+  </form>
+
+  <div id="result"></div>
 
   <script>
     function calculateSavings() {
@@ -203,30 +161,19 @@
       const annualCo2Emission = co2Emissions * annualVisits;
       const totalAnnualSavings = (annualPersonnelCost + annualFuelCost + annualCo2Emission) - softwareCostPerYear;
 
-      // Format numbers with thousands separator and 2 decimals
-      function formatEuro(value) {
-        return value.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
-      function formatKg(value) {
-        return value.toLocaleString('en-EN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      }
+      document.getElementById('result').innerHTML = `
+        <strong>Savings per physical visit:</strong><br>
+        Personnel cost: €${personnelCost.toFixed(2)}<br>
+        Fuel cost: €${fuelCost.toFixed(2)}<br>
+        CO₂ emissions: ${co2Emissions.toFixed(2)} kg<br>
+        Total time: ${totalTime.toFixed(2)} hours<br><br>
 
-      const resultText = `
-Savings with online management (compared to physical visits):
-
-Personnel cost per physical visit: €${formatEuro(personnelCost)}
-Fuel cost per physical visit: €${formatEuro(fuelCost)}
-CO₂ emissions per physical visit: ${formatKg(co2Emissions)} kg
-Total time per physical visit: ${totalTime.toFixed(2)} hours
-
-Annual savings:
-Annual personnel costs: €${formatEuro(annualPersonnelCost)}
-Annual fuel costs: €${formatEuro(annualFuelCost)}
-Annual CO₂ savings (kg): ${formatKg(annualCo2Emission)} kg
-Annual savings from online management (minus software costs): €${formatEuro(totalAnnualSavings)}
+        <strong>Annual savings:</strong><br>
+        Personnel cost: €${annualPersonnelCost.toFixed(2)}<br>
+        Fuel cost: €${annualFuelCost.toFixed(2)}<br>
+        CO₂ savings: ${annualCo2Emission.toFixed(2)} kg<br>
+        Net savings (after software): €${totalAnnualSavings.toFixed(2)}
       `;
-
-      document.getElementById('result').textContent = resultText.trim();
     }
   </script>
 </body>
