@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Calculate Your Savings: Online Visit vs. Physical Visit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Saira+Extra+Condensed&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: #f9f9f9;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      color: #1e355e;
+    }
+    h2 {
+      font-family: 'Saira Extra Condensed', sans-serif;
+      color: #1e355e;
+    }
+    label {
+      display: block;
+      margin-top: 1rem;
+      color: #1e355e;
+      font-weight: normal;
+    }
+    input[type="number"], input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.3rem;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1rem;
+      color: #1e355e;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      font-size: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      background-color: #1e355e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #16304a;
+    }
+    #result {
+      margin-top: 2rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(30, 53, 94, 0.1);
+      font-family: 'Montserrat', sans-serif;
+      color: #1e355e;
+      line-height: 1.5;
+    }
+    strong {
+      color: #1e355e;
+    }
+  </style>
+</head>
+<body>
+  <h2>Calculate Your Savings: Online Visit vs. Physical Visit</h2>
+
+  <label>Employee hourly rate (€):
+    <input type="number" id="hourlyRate" value="20" step="1" />
+  </label>
+  <label>Distance to location (km):
+    <input type="number" id="distance" value="50" step="1" />
+  </label>
+  <label>Fuel price per liter (€):
+    <input type="number" id="fuelPrice" value="1.80" step="0.01" />
+  </label>
+  <label>Car fuel consumption (l/100 km):
+    <input type="number" id="fuelConsumption" value="6" step="0.1" />
+  </label>
+  <label>CO₂ emissions per km (kg):
+    <input type="number" id="co2PerKm" value="0.12" step="0.01" />
+  </label>
+  <label>Average speed (km/h):
+    <input type="number" id="speed" value="60" step="1" />
+  </label>
+  <label>Time at location (hours):
+    <input type="number" id="timeAtLocation" value="1" step="0.1" />
+  </label>
+  <label>Number of visits per year:
+    <input type="number" id="annualVisits" value="100" step="1" />
+  </label>
+
+  <button onclick="calculateSavings()">Calculate Savings</button>
+
+  <div id="result"></div>
+
+  <script>
+    function calculateSavings() {
+      const hourlyRate = parseFloat(document.getElementById('hourlyRate').value);
+      const distance = parseFloat(document.getElementById('distance').value);
+      const fuelPrice = parseFloat(document.getElementById('fuelPrice').value);
+      const fuelConsumption = parseFloat(document.getElementById('fuelConsumption').value);
+      const co2PerKm = parseFloat(document.getElementById('co2PerKm').value);
+      const speed = parseFloat(document.getElementById('speed').value);
+      const timeAtLocation = parseFloat(document.getElementById('timeAtLocation').value);
+      const annualVisits = parseFloat(document.getElementById('annualVisits').value);
+
+      const softwareCostPerYear = 800 / 5; // Software cost per year (800 euros over 5 years)
+
+      // Calculations
+      const travelTime = distance / speed; // travel time in hours
+      const personnelCost = hourlyRate * (travelTime + timeAtLocation); // personnel cost per visit
+      const fuelCost = (distance / 100) * fuelConsumption * fuelPrice; // fuel cost per visit
+      const co2Emissions = distance * co2PerKm; // CO2 emissions per visit (kg)
+      const totalTime = travelTime + timeAtLocation; // total time per visit (hours)
+
+      // Annual savings
+      const annualPersonnelCost = personnelCost * annualVisits;
+      const annualFuelCost = fuelCost * annualVisits;
+      const annualCo2Emission = co2Emissions * annualVisits;
+      const totalAnnualSavings = (annualPersonnelCost + annualFuelCost + annualCo2Emission) - softwareCostPerYear;
+
+      // Display results
+      document.getElementById('result').innerHTML =
+        `<strong>Savings with Online Management (compared to Physical Visits):</strong><br>
+        <strong>Personnel cost per physical visit:</strong> €${personnelCost.toFixed(2)}<br>
+        <strong>Fuel cost per physical visit:</strong> €${fuelCost.toFixed(2)}<br>
+        <strong>CO₂ emissions per physical visit:</strong> ${co2Emissions.toFixed(2)} kg<br>
+        <strong>Total time per physical visit:</strong> ${totalTime.toFixed(2)} hours<br><br>
+
+        <strong>Annual Savings:</strong><br>
+        <strong>Annual personnel costs:</strong> €${annualPersonnelCost.toFixed(2)}<br>
+        <strong>Annual fuel costs:</strong> €${annualFuelCost.toFixed(2)}<br>
+        <strong>Annual CO₂ savings (kg):</strong> ${annualCo2Emission.toFixed(2)} kg<br>
+        <strong>Annual savings from online management (minus software costs):</strong> €${totalAnnualSavings.toFixed(2)}<br>`;
+    }
+  </script>
+</body>
+</html>
